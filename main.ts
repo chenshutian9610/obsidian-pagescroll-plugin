@@ -32,10 +32,10 @@ export default class PageScrollPlugin extends Plugin {
 
     /* 按钮，移动端和桌面端位置不同 */
     if (this.app.isMobile) {
-      this.registerButton("top", "⇈", 32, 2);
-      this.registerButton("up", "↑", 24, 2);
-      this.registerButton("down", "↓", 16, 2);
-      this.registerButton("bottom", "⇊", 8, 2);
+      this.registerButton("top", "⇈", 64, 2);
+      this.registerButton("up", "↑", 56, 2);
+      this.registerButton("down", "↓", 48, 2);
+      this.registerButton("bottom", "⇊", 40, 2);
     } else {
       this.registerButton("top", "⇈", 16, 1);
       this.registerButton("up", "↑", 12, 1);
