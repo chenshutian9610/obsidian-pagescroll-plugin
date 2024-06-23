@@ -5,27 +5,27 @@ export default class PageScrollPlugin extends Plugin {
     /* 命令 */
 
     this.addCommand({
-      id: "page-scroll-down-command",
+      id: "page-scroll-down",
       name: "page-down",
       callback: () => this.scroll("down"),
       hotkeys: [{ key: "AudioVolumeDown", modifiers: [] }],
     });
 
     this.addCommand({
-      id: "page-scroll-up-command",
+      id: "page-scroll-up",
       name: "page-up",
       callback: () => this.scroll("up"),
       hotkeys: [{ key: "AudioVolumeUp", modifiers: [] }],
     });
 
     this.addCommand({
-      id: "page-scroll-top-command",
+      id: "page-scroll-top",
       name: "page-top",
       callback: () => this.scroll("top"),
     });
 
     this.addCommand({
-      id: "page-scroll-bottom-command",
+      id: "page-scroll-bottom",
       name: "page-bottom",
       callback: () => this.scroll("bottom"),
     });
@@ -61,8 +61,17 @@ export default class PageScrollPlugin extends Plugin {
         ? thisView?.previewMode?.renderer?.previewEl
         : thisView?.editMode?.cm?.scrollDOM;
     if (!thisScrollObj) {
-      console.error("scroll failed ==> scrollObj is missing");
-      return;
+      // for TextFileView
+      try {
+        thisScrollObj = this.app.workspace.getActiveFileView()?.containerEl?.children[1]
+        if (!thisScrollObj) {
+          console.error("scroll failed ==> scrollObj is missing");
+          return
+        }
+      } catch(e) {
+        console.error("scroll failed ==> ", e);
+        return
+      }
     }
     let range = thisScrollObj.clientHeight - 60;
     switch (mode) {
@@ -95,7 +104,7 @@ export default class PageScrollPlugin extends Plugin {
       button.id = buttonId;
       button.style = `position: absolute; bottom: ${offsetBottom}%; right: ${offsetRight}%; background-color: transparent; width: 27px; border-color: black;`;
       button.onclick = () => self.scroll(mode);
-      button.innerHTML = name;
+	    button.setText(name);
       document.body.appendChild(button);
     }
   }
